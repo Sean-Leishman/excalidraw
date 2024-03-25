@@ -7,32 +7,50 @@
 
 /* https://github.com/microsoft/cascadia-code */
 @font-face {
-  font-family: "Cascadia";
+  font-family: "Ha";
   src: url("Cascadia.woff2");
   font-display: swap;
 }
 
+/*
 @font-face {
   font-family: "Assistant";
   src: url("Assistant-Regular.woff2");
   font-display: swap;
   font-weight: 400;
 }
+
 @font-face {
   font-family: "Assistant";
   src: url("Assistant-Medium.woff2");
   font-display: swap;
   font-weight: 500;
 }
+
 @font-face {
   font-family: "Assistant";
   src: url("Assistant-SemiBold.woff2");
   font-display: swap;
   font-weight: 600;
 }
+
 @font-face {
   font-family: "Assistant";
   src: url("Assistant-Bold.woff2");
+  font-display: swap;
+  font-weight: 700;
+}
+*/
+
+@font-face {
+  font-family: "Assistant";
+  src: url("Harmonia.woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cascadia";
+  src: url("https://db.onlinewebfonts.com/t/ab83b275830b2d585ea027c47e3b237a.woff2");
   font-display: swap;
   font-weight: 700;
 }
