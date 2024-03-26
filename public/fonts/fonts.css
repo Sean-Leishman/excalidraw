@@ -7,7 +7,7 @@
 
 /* https://github.com/microsoft/cascadia-code */
 @font-face {
-  font-family: "Ha";
+  font-family: "Code";
   src: url("Cascadia.woff2");
   font-display: swap;
 }
@@ -50,7 +50,7 @@
 
 @font-face {
   font-family: "Cascadia";
-  src: url("https://db.onlinewebfonts.com/t/ab83b275830b2d585ea027c47e3b237a.woff2");
+  src: url("https://db.onlinewebfonts.com/t/040a78b437acd0433612f92e61d04a1b.woff2");
   font-display: swap;
   font-weight: 700;
 }
