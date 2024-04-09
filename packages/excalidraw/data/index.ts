@@ -47,12 +47,12 @@ export const prepareElementsForExport = (
   let exportingFrame: ExcalidrawFrameLikeElement | null = null;
   let exportedElements = isExportingSelection
     ? getSelectedElements(
-        elements,
-        { selectedElementIds },
-        {
-          includeBoundTextElement: true,
-        },
-      )
+      elements,
+      { selectedElementIds },
+      {
+        includeBoundTextElement: true,
+      },
+    )
     : elements;
 
   if (isExportingSelection) {
@@ -90,6 +90,7 @@ export const exportCanvas = async (
     exportPadding = DEFAULT_EXPORT_PADDING,
     viewBackgroundColor,
     name = appState.name || DEFAULT_FILENAME,
+    dir = appState.dir || "downloads",
     fileHandle = null,
     exportingFrame = null,
   }: {
@@ -98,6 +99,7 @@ export const exportCanvas = async (
     viewBackgroundColor: string;
     /** filename, if applicable */
     name?: string;
+    dir?: string;
     fileHandle?: FileSystemHandle | null;
     exportingFrame: ExcalidrawFrameLikeElement | null;
   },
@@ -128,6 +130,7 @@ export const exportCanvas = async (
         {
           description: "Export to SVG",
           name,
+          startIn: dir,
           extension: appState.exportEmbedScene ? "excalidraw.svg" : "svg",
           fileHandle,
         },
@@ -170,6 +173,7 @@ export const exportCanvas = async (
       // FIXME reintroduce `excalidraw.png` when most people upgrade away
       // from 111.0.5563.64 (arm64), see #6349
       extension: /* appState.exportEmbedScene ? "excalidraw.png" : */ "png",
+      startIn: dir,
       fileHandle,
     });
   } else if (type === "clipboard") {

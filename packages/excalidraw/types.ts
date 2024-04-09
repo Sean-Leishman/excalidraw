@@ -89,9 +89,9 @@ export type DataURL = string & { _brand: "DataURL" };
 
 export type BinaryFileData = {
   mimeType:
-    | ValueOf<typeof IMAGE_MIME_TYPES>
-    // future user or unknown file type
-    | typeof MIME_TYPES.binary;
+  | ValueOf<typeof IMAGE_MIME_TYPES>
+  // future user or unknown file type
+  | typeof MIME_TYPES.binary;
   id: FileId;
   dataURL: DataURL;
   /**
@@ -133,13 +133,13 @@ export type ElementOrToolType = ExcalidrawElementType | ToolType | "custom";
 
 export type ActiveTool =
   | {
-      type: ToolType;
-      customType: null;
-    }
+    type: ToolType;
+    customType: null;
+  }
   | {
-      type: "custom";
-      customType: string;
-    };
+    type: "custom";
+    customType: string;
+  };
 
 export type SidebarName = string;
 export type SidebarTabName = string;
@@ -264,6 +264,7 @@ export interface AppState {
   cursorButton: "up" | "down";
   scrolledOutside: boolean;
   name: string | null;
+  dir: string | null;
   isResizing: boolean;
   isRotating: boolean;
   zoom: Zoom;
@@ -271,17 +272,17 @@ export interface AppState {
   openPopup: "canvasBackground" | "elementBackground" | "elementStroke" | null;
   openSidebar: { name: SidebarName; tab?: SidebarTabName } | null;
   openDialog:
-    | null
-    | { name: "imageExport" | "help" | "jsonExport" }
-    | {
-        name: "settings";
-        source:
-          | "tool" // when magicframe tool is selected
-          | "generation" // when magicframe generate button is clicked
-          | "settings"; // when AI settings dialog is explicitly invoked
-        tab: "text-to-diagram" | "diagram-to-code";
-      }
-    | { name: "ttd"; tab: "text-to-diagram" | "mermaid" };
+  | null
+  | { name: "imageExport" | "help" | "jsonExport" }
+  | {
+    name: "settings";
+    source:
+    | "tool" // when magicframe tool is selected
+    | "generation" // when magicframe generate button is clicked
+    | "settings"; // when AI settings dialog is explicitly invoked
+    tab: "text-to-diagram" | "diagram-to-code";
+  }
+  | { name: "ttd"; tab: "text-to-diagram" | "mermaid" };
   /**
    * Reflects user preference for whether the default sidebar should be docked.
    *
@@ -317,14 +318,14 @@ export interface AppState {
   showStats: boolean;
   currentChartType: ChartType;
   pasteDialog:
-    | {
-        shown: false;
-        data: null;
-      }
-    | {
-        shown: true;
-        data: Spreadsheet;
-      };
+  | {
+    shown: false;
+    data: null;
+  }
+  | {
+    shown: true;
+    data: Spreadsheet;
+  };
   /** imageElement waiting to be placed on canvas */
   pendingImageElementId: ExcalidrawImageElement["id"] | null;
   showHyperlinkPopup: false | "info" | "editor";
@@ -395,8 +396,8 @@ export type LibraryItems_anyVersion = LibraryItems | LibraryItems_v1;
 
 export type LibraryItemsSource =
   | ((
-      currentLibraryItems: LibraryItems,
-    ) => MaybePromise<LibraryItems_anyVersion | Blob>)
+    currentLibraryItems: LibraryItems,
+  ) => MaybePromise<LibraryItems_anyVersion | Blob>)
   | MaybePromise<LibraryItems_anyVersion | Blob>;
 // -----------------------------------------------------------------------------
 
@@ -443,6 +444,7 @@ export interface ExcalidrawProps {
   theme?: Theme;
   // @TODO come with better API before v0.18.0
   name?: string;
+  dir?: string;
   renderCustomStats?: (
     elements: readonly NonDeletedExcalidrawElement[],
     appState: UIAppState,
@@ -471,11 +473,11 @@ export interface ExcalidrawProps {
   onUserFollow?: (payload: OnUserFollowedPayload) => void;
   children?: React.ReactNode;
   validateEmbeddable?:
-    | boolean
-    | string[]
-    | RegExp
-    | RegExp[]
-    | ((link: string) => boolean | undefined);
+  | boolean
+  | string[]
+  | RegExp
+  | RegExp[]
+  | ((link: string) => boolean | undefined);
   renderEmbeddable?: (
     element: NonDeleted<ExcalidrawEmbeddableElement>,
     appState: AppState,
@@ -585,6 +587,7 @@ export type AppClassProperties = {
   insertEmbeddableElement: App["insertEmbeddableElement"];
   onMagicframeToolSelect: App["onMagicframeToolSelect"];
   getName: App["getName"];
+  getDir: App["getDir"];
 };
 
 export type PointerDownState = Readonly<{
@@ -663,6 +666,7 @@ export interface ExcalidrawImperativeAPI {
   getAppState: () => InstanceType<typeof App>["state"];
   getFiles: () => InstanceType<typeof App>["files"];
   getName: InstanceType<typeof App>["getName"];
+  getDir: InstanceType<typeof App>["getDir"];
   scrollToContent: InstanceType<typeof App>["scrollToContent"];
   registerAction: (action: Action) => void;
   refresh: InstanceType<typeof App>["refresh"];

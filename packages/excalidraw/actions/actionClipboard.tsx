@@ -139,6 +139,7 @@ export const actionCopyAsSvg = register({
           ...appState,
           exportingFrame,
           name: app.getName(),
+          dir: app.getDir(),
         },
       );
       return {
@@ -186,6 +187,7 @@ export const actionCopyAsPng = register({
         ...appState,
         exportingFrame,
         name: app.getName(),
+        dir: app.getDir(),
       });
       return {
         appState: {

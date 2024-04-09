@@ -80,6 +80,7 @@ export const fileSave = (
   opts: {
     /** supply without the extension */
     name: string;
+    startIn: string;
     /** file extension */
     extension: FILE_EXTENSION;
     description: string;
@@ -87,10 +88,19 @@ export const fileSave = (
     fileHandle?: FileSystemHandle | null;
   },
 ) => {
+  const currentDirHandle = await navigator.storage.getDirectory();
+  const newDirHandle = await currentDirHandle?.getDirectoryHandle(
+    opts.startIn,
+    {
+      create: true,
+    },
+  );
+
   return _fileSave(
     blob,
     {
       fileName: `${opts.name}.${opts.extension}`,
+      startIn: opts.startIn,
       description: opts.description,
       extensions: [`.${opts.extension}`],
     },

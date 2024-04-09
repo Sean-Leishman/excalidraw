@@ -196,6 +196,7 @@ const LayerUI = ({
         onExportImage={onExportImage}
         onCloseRequest={() => setAppState({ openDialog: null })}
         name={app.getName()}
+        dir={app.getDir()}
       />
     );
   };
@@ -436,8 +437,8 @@ const LayerUI = ({
                         ? "strokeColor"
                         : "backgroundColor"
                       : colorPickerType === "elementBackground"
-                      ? "backgroundColor"
-                      : "strokeColor"]: color,
+                        ? "backgroundColor"
+                        : "strokeColor"]: color,
                   },
                   false,
                 );
@@ -527,8 +528,8 @@ const LayerUI = ({
             className="layer-ui__wrapper"
             style={
               appState.openSidebar &&
-              isSidebarDocked &&
-              device.editor.canFitSidebar
+                isSidebarDocked &&
+                device.editor.canFitSidebar
                 ? { width: `calc(100% - ${LIBRARY_SIDEBAR_WIDTH}px)` }
                 : {}
             }

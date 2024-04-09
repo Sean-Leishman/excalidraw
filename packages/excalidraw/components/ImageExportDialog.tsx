@@ -9,6 +9,7 @@ import {
   actionChangeExportEmbedScene,
   actionChangeExportScale,
   actionChangeProjectName,
+  actionChangeDirName,
 } from "../actions/actionExport";
 import { probablySupportsClipboardBlob } from "../clipboard";
 import {
@@ -58,6 +59,7 @@ type ImageExportModalProps = {
   actionManager: ActionManager;
   onExportImage: AppClassProperties["onExportImage"];
   name: string;
+  dir: string;
 };
 
 const ImageExportModal = ({
@@ -67,6 +69,7 @@ const ImageExportModal = ({
   actionManager,
   onExportImage,
   name,
+  dir,
 }: ImageExportModalProps) => {
   const hasSelection = isSomeElementSelected(
     elementsSnapshot,
@@ -74,6 +77,7 @@ const ImageExportModal = ({
   );
 
   const [projectName, setProjectName] = useState(name);
+  const [dirName, setDirName] = useState(dir);
   const [exportSelectionOnly, setExportSelectionOnly] = useState(hasSelection);
   const [exportWithBackground, setExportWithBackground] = useState(
     appStateSnapshot.exportBackground,
@@ -110,6 +114,7 @@ const ImageExportModal = ({
       appState: {
         ...appStateSnapshot,
         name: projectName,
+        dir: dirName,
         exportBackground: exportWithBackground,
         exportWithDarkMode: exportDarkMode,
         exportScale,
@@ -145,6 +150,7 @@ const ImageExportModal = ({
     exportedElements,
     exportingFrame,
     projectName,
+    dirName,
     exportWithBackground,
     exportDarkMode,
     exportScale,
@@ -169,6 +175,24 @@ const ImageExportModal = ({
                 setProjectName(event.target.value);
                 actionManager.executeAction(
                   actionChangeProjectName,
+                  "ui",
+                  event.target.value,
+                );
+              }}
+            />
+          )}
+        </div>
+        <div className="ImageExportModal__preview__filename">
+          {!nativeFileSystemSupported && (
+            <input
+              type="text"
+              className="TextInput"
+              value={dirName}
+              style={{ width: "30ch" }}
+              onChange={(event) => {
+                setDirName(event.target.value);
+                actionManager.executeAction(
+                  actionChangeDirName,
                   "ui",
                   event.target.value,
                 );
@@ -351,6 +375,7 @@ export const ImageExportDialog = ({
   onExportImage,
   onCloseRequest,
   name,
+  dir,
 }: {
   appState: UIAppState;
   elements: readonly NonDeletedExcalidrawElement[];
@@ -359,6 +384,7 @@ export const ImageExportDialog = ({
   onExportImage: AppClassProperties["onExportImage"];
   onCloseRequest: () => void;
   name: string;
+  dir: string;
 }) => {
   // we need to take a snapshot so that the exported state can't be modified
   // while the dialog is open
@@ -378,6 +404,7 @@ export const ImageExportDialog = ({
         actionManager={actionManager}
         onExportImage={onExportImage}
         name={name}
+        dir={dir}
       />
     </Dialog>
   );

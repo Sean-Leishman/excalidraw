@@ -62,7 +62,7 @@ export const serializeAsJSON = (
       type === "local"
         ? filterOutDeletedFiles(elements, files)
         : // will be stripped from JSON
-          undefined,
+        undefined,
   };
 
   return JSON.stringify(data, null, 2);
@@ -74,6 +74,7 @@ export const saveAsJSON = async (
   files: BinaryFiles,
   /** filename */
   name: string = appState.name || DEFAULT_FILENAME,
+  dir: string = "downloads",
 ) => {
   const serialized = serializeAsJSON(elements, appState, files, "local");
   const blob = new Blob([serialized], {
@@ -82,6 +83,7 @@ export const saveAsJSON = async (
 
   const fileHandle = await fileSave(blob, {
     name,
+    startIn: dir,
     extension: "excalidraw",
     description: "Excalidraw file",
     fileHandle: isImageFileHandle(appState.fileHandle)
@@ -149,6 +151,7 @@ export const saveLibraryAsJSON = async (libraryItems: LibraryItems) => {
     }),
     {
       name: "library",
+      startIn: "downloads",
       extension: "excalidrawlib",
       description: "Excalidraw library file",
     },
